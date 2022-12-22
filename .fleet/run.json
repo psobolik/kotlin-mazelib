@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Build",
+            "type": "command",
+            "program": "kotlinc",
+            "args": [
+                "-d",
+                "$PROJECT_DIR$/out/production/MazeLib",
+                "$PROJECT_DIR$/src",
+            ],
+        },
+        {
+            "name": "Run",
+            "type": "command",
+            "dependsOn": ["Build"],
+            "program": "kotlin",
+            "args": [
+                "-cp",
+                "$PROJECT_DIR$/out/production/MazeLib",
+                "mazeLib.RunKt",
+                "-r",
+                "8",
+                "-c",
+                "20",
+            ],
+        },
+    ]
+}

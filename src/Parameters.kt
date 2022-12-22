@@ -8,10 +8,7 @@ class Parameters(private val args: Array<String>) {
         val rowArgs = arrayOf("-r", "--rows")
         val columnArgs = arrayOf("-c", "--cols", "--columns")
         var helpArgs = arrayOf("-h", "-?", "--help")
-    }
-
-    val helpText = 
-"""Generate and display a maze
+        const val helpText = """Generate and display a maze
 
 Usage: mazeLib.RunKt [options]
 Options:
@@ -19,6 +16,8 @@ Options:
     -c | --cols | --columns  Indicate the width of the maze. Default 10
     -r | --rows              Indicate the height of the maze. Default 10
 """
+    }
+
     val showHelp = args.indexOfFirst { helpArgs.contains(it) } >= 0
     val rows = getIntValue(rowArgs, defaultRows)
     val columns = getIntValue(columnArgs, defaultCols)

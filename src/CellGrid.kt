@@ -3,7 +3,7 @@ package mazeLib
 class CellGrid(val rows: Int, val cols: Int) : Iterator<Cell> {
     private var next = Coordinates(0, 0)
 
-    val grid = Array<Array<Cell?>>(rows) { _ -> Array<Cell?>(cols) { _ -> null } }
+    private val grid = Array(rows) { _ -> Array<Cell?>(cols) { _ -> null } }
 
     override fun hasNext(): Boolean {
         return inBounds(Coordinates(next.row, next.col + 1))

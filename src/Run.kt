@@ -4,7 +4,7 @@ fun main(args: Array<String>) {
     val parameters = Parameters(args)
 
     if (parameters.showHelp) {
-        println(parameters.helpText)
+        println(Parameters.helpText)
         return
     }
     
@@ -20,17 +20,17 @@ fun main(args: Array<String>) {
         for (col in 0 until maze.cols) {
             val coordinates = Coordinates(maze.rows - 1 - row, col)
             val cell = maze[coordinates]
-            s += when (cell?.westEdge) {
+            s += when (cell?.get(Direction.West)) {
                 is CellWall,
                 is CellBorder -> "|"
                 else -> " "
             }
-            s += when (cell?.southEdge) {
+            s += when (cell?.get(Direction.South)) {
                 is CellWall,
                 is CellBorder -> "_"
                 else -> " "
             }
-            s += when (cell?.eastEdge) {
+            s += when (cell?.get(Direction.East)) {
                 is CellBorder -> "|"
                 else -> ""
             }

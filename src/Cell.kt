@@ -1,10 +1,10 @@
 package mazeLib
 
 class Cell(var coordinates: Coordinates) {
-    var northEdge: CellEdge? = null
-    var eastEdge: CellEdge? = null
-    var southEdge: CellEdge? = null
-    var westEdge: CellEdge? = null
+    private var northEdge: CellEdge? = null
+    private var eastEdge: CellEdge? = null
+    private var southEdge: CellEdge? = null
+    private var westEdge: CellEdge? = null
 
     private fun unassignedEdgeCount(): Int {
         return getUnassignedDirections().size

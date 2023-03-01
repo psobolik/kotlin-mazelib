@@ -1,12 +1,12 @@
 package mazeLib
 
 class CellGrid(val rows: Int, val cols: Int) : Iterator<Cell> {
-    private var next = Coordinates(0, 0)
+    private var next = Coordinates(-1, -1)
 
     private val grid = Array(rows) { _ -> Array<Cell?>(cols) { _ -> null } }
 
     override fun hasNext(): Boolean {
-        return inBounds(Coordinates(next.row, next.col + 1))
+        return inBounds(Coordinates(0, next.col + 1))
                 || inBounds(Coordinates(next.row + 1, 0))
     }
 

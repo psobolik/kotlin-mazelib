@@ -1,6 +1,10 @@
 package mazeLib
 
 fun main(args: Array<String>) {
+    val wallChar = '|'
+    val floorChar = '_'
+    val passageChar = ' '
+
     val parameters = Parameters(args)
 
     if (parameters.showHelp) {
@@ -10,32 +14,26 @@ fun main(args: Array<String>) {
 
     val maze = MazeGenerator.generateMaze(parameters.rows, parameters.columns)
     println("${maze.rows}x${maze.cols}")
-    var index = 0
-    var s = ""
+    val line = mutableListOf<Char>()
     val lines = mutableListOf<String>()
     for (cell in maze) {
-        s += when (cell[Direction.West]) {
+        line.add(when (cell[Direction.West]) {
             is CellWall,
-                is CellBorder -> "|"
-            else -> " "
-        }
-        s += when (cell[Direction.South]) {
+            is CellBorder -> wallChar
+            else -> passageChar
+        })
+        line.add(when (cell[Direction.South]) {
             is CellWall,
-                is CellBorder -> "_"
-            else -> " "
-        }
-        s += when (cell[Direction.East]) {
-            is CellBorder -> "|"
-            else -> ""
-        }
-        if (++index % maze.cols == 0) {
-            lines.add(0, s)
-            s = ""
+            is CellBorder -> floorChar
+            else -> passageChar
+        })
+        if (cell[Direction.East] is CellBorder) {
+            line.add(wallChar)
+            lines.add(line.joinToString(""))
+            line.clear()
         }
     }
 //    lines.add((0..maze.cols).joinToString("") { "%02d".format(it) })
-    lines.add(0, (0..maze.cols).joinToString("") { "_ " })
-    for (line in lines) {
-        println(line)
-    }
+    lines.add((0..maze.cols).joinToString("") { "_ " })
+    lines.reversed().forEach { println(it) }
 }

@@ -18,16 +18,15 @@ Options:
 """
     }
 
-    val showHelp = args.indexOfFirst { helpArgs.contains(it) } >= 0
+    val showHelp = args.indexOfFirst { arg -> helpArgs.contains(arg) } >= 0
     val rows = getIntValue(rowArgs, defaultRows)
     val columns = getIntValue(columnArgs, defaultCols)
 
     private fun getIntValue(argNames: Array<String>, defaultValue: Int): Int {
-        var value: Int? = null
-        val index = args.indexOfLast { argNames.contains(it) }
-        if (index >= 0 && index < args.size) {
-            value = args[index + 1].toIntOrNull()
+        val index = args.indexOfLast { arg -> argNames.contains(arg) }
+        if (index in args.indices && index + 1 in args.indices) {
+            return args[index + 1].toIntOrNull() ?: defaultValue
         }
-        return value ?: defaultValue
+        return defaultValue
     }
 }

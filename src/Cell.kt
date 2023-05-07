@@ -15,12 +15,12 @@ class Cell(var coordinates: Coordinates) {
     }
 
     fun getUnassignedDirections(): Array<Direction> {
-        val result = ArrayList<Direction>()
-        if (this[Direction.North] == null) result.add(Direction.North)
-        if (this[Direction.East] == null) result.add(Direction.East)
-        if (this[Direction.South] == null) result.add(Direction.South)
-        if (this[Direction.West] == null) result.add(Direction.West)
-        return result.toTypedArray()
+        return arrayOf(
+            Direction.North,
+            Direction.East,
+            Direction.South,
+            Direction.West
+        ).filter { direction -> this[direction] == null }.toTypedArray()
     }
 
     operator fun get(direction: Direction): CellEdge? {

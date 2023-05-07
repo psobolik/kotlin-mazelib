@@ -29,7 +29,7 @@ class Generator {
             // Examine a random unassigned neighbor cell
             val direction = getRandomUnassignedDirection(currentCell)
             val neighborCoordinates = currentCell.coordinates + direction.coordinates
-            if (maze.inBounds(neighborCoordinates)) {
+            if (maze.isCoordinateInBounds(neighborCoordinates)) {
                 var neighborCell = maze[neighborCoordinates]
                 if (neighborCell == null) {
                     // Neighbor is unexamined, create a new cell with a passage in the selected direction

@@ -7,43 +7,52 @@ fun main(args: Array<String>) {
         println(Parameters.helpText)
         return
     }
-    
+
     val generator = Generator()
     val maze = generator.generateMaze(parameters.rows, parameters.columns)
 
-    println("${maze.cols}x${maze.rows}")
+    val stringBuilder = StringBuilder()
 
-    for (col in 0 until maze.cols) print(" _")
-    println()
-    for (row in 0 until maze.rows) {
-        var s = ""
-        for (col in 0 until maze.cols) {
-            val coordinates = Coordinates(maze.rows - 1 - row, col)
-            val cell = maze[coordinates]
-            s += when (cell?.get(Direction.West)) {
+    stringBuilder.appendLine("${maze.cols}x${maze.rows}")
+    stringBuilder.appendLine(" ▁".repeat(maze.cols))
+    var col = 0
+    maze.forEach { cell ->
+        stringBuilder.append(
+            when (cell[Direction.West]) {
                 is CellWall,
-                is CellBorder -> "|"
+                is CellBorder -> "▏"
+
                 else -> " "
             }
-            s += when (cell?.get(Direction.South)) {
+        )
+        stringBuilder.append(
+            when (cell[Direction.South]) {
                 is CellWall,
-                is CellBorder -> "_"
+                is CellBorder -> "▁"
+
                 else -> " "
             }
-            s += when (cell?.get(Direction.East)) {
-                is CellBorder -> "|"
+        )
+        stringBuilder.append(
+            when (cell[Direction.East]) {
+                is CellBorder -> "▕"
                 else -> ""
             }
-        }
-        println(s)
-    }
-/*
-    for (row in 0 until maze.rows) {
-        for (col in 0 until maze.cols) {
-            val coordinates = Coordinates(row, col)
-            val cell = maze[coordinates]
-            println("$coordinates: $cell")
+        )
+        if (++col >= maze.cols) {
+            stringBuilder.appendLine()
+            col = 0
         }
     }
-*/
+    print(stringBuilder.toString())
+
+    /*
+        for (row in 0 until maze.rows) {
+            for (col in 0 until maze.cols) {
+                val coordinates = Coordinates(row, col)
+                val cell = maze[coordinates]
+                println("$coordinates: $cell")
+            }
+        }
+    */
 }

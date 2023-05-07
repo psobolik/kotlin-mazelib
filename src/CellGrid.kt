@@ -1,28 +1,29 @@
 package mazeLib
 
 class CellGrid(val rows: Int, val cols: Int) : Iterator<Cell> {
-    // Iterate left to right, bottom to top
-    private var next = Coordinates(rows, -1)
+    private var next = Coordinates(-1, -1)
 
     private val grid = Array(rows) { _ -> Array<Cell?>(cols) { _ -> null } }
 
     override fun hasNext(): Boolean {
-        return isCoordinateInBounds(Coordinates(next.row, next.col + 1))
-                || isCoordinateInBounds(Coordinates(next.row - 1, 0))
+        return inBounds(Coordinates(0, next.col + 1))
+                || inBounds(Coordinates(next.row + 1, 0))
     }
 
     override fun next(): Cell {
+        var result: Cell? = null
         var test = Coordinates(next.row, next.col + 1)
-        if (isCoordinateInBounds(test)) {
+        if (inBounds(test)) {
             next = test
-            return get(next)!!
+            result = get(next)
+        } else {
+            test = Coordinates(next.row + 1, 0)
+            if (inBounds(test)) {
+                next = test
+                result = get(next)
+            }
         }
-        test = Coordinates(next.row - 1, 0)
-        if (isCoordinateInBounds(test)) {
-            next = test
-            return get(next)!!
-        }
-        throw Exception("Error in CellGrid iterator!")
+        return result!!
     }
 
     operator fun get(coordinates: Coordinates): Cell? {
@@ -33,8 +34,15 @@ class CellGrid(val rows: Int, val cols: Int) : Iterator<Cell> {
         grid[coordinates.row][coordinates.col] = value
     }
 
-    fun isCoordinateInBounds(coordinates: Coordinates): Boolean {
-        return coordinates.row in 0 until rows &&
-                coordinates.col in 0 until cols
+    fun inBounds(coordinates: Coordinates): Boolean {
+        return rowInBounds(coordinates.row) && colInBounds(coordinates.col)
+    }
+
+    private fun rowInBounds(row: Int): Boolean {
+        return row in 0 until rows
+    }
+
+    private fun colInBounds(col: Int): Boolean {
+        return col in 0 until cols
     }
 }

@@ -1,6 +1,11 @@
 package mazeLib
 
 fun main(args: Array<String>) {
+    val wallChar = '▏'
+    val floorChar = '_'
+    val passageChar = ' '
+    val noWallChar = ""
+
     val parameters = Parameters(args)
 
     if (parameters.showHelp) {
@@ -20,23 +25,23 @@ fun main(args: Array<String>) {
         stringBuilder.append(
             when (cell[Direction.West]) {
                 is CellWall,
-                is CellBorder -> "▏"
+                is CellBorder -> wallChar
 
-                else -> " "
+                else -> passageChar
             }
         )
         stringBuilder.append(
             when (cell[Direction.South]) {
                 is CellWall,
-                is CellBorder -> "▁"
+                is CellBorder -> floorChar
 
-                else -> " "
+                else -> passageChar
             }
         )
         stringBuilder.append(
             when (cell[Direction.East]) {
-                is CellBorder -> "▕"
-                else -> ""
+                is CellBorder -> wallChar
+                else -> noWallChar
             }
         )
         if (++col >= maze.cols) {
